@@ -34,10 +34,11 @@ public class Handler3 implements RequestHandler<String, String> {
         try {
            msg.sendMessage(email);
 
-       } catch (IOException e) {
+       } catch (Exception e) {
+            logger.log("Exception is " + e);
            e.getStackTrace();
        }
-
+        logger.log("Send email succesfully value " + email);
         return "";
 
     }

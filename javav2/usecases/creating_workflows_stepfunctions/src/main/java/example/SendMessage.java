@@ -35,7 +35,7 @@ import software.amazon.awssdk.services.ses.model.SesException;
 
 public class SendMessage {
 
-    public void sendMessage(String email) throws IOException {
+    public void sendMessage(String email) throws Exception {
 
 
         //Sender
@@ -55,12 +55,8 @@ public class SendMessage {
                 .region(region)
                 .build();
 
-        try {
             send(client, sender,email, subject,bodyText,bodyHTML);
 
-        } catch (IOException | MessagingException e) {
-            e.getStackTrace();
-        }
     }
 
     public static void send(SesClient client,
@@ -69,7 +65,7 @@ public class SendMessage {
                             String subject,
                             String bodyText,
                             String bodyHTML
-    ) throws AddressException, MessagingException, IOException {
+    ) throws Exception {
 
         Session session = Session.getDefaultInstance(new Properties());
 
@@ -111,7 +107,6 @@ public class SendMessage {
         // Add the multipart/alternative part to the message.
         msg.addBodyPart(wrap);
 
-        try {
             System.out.println("Attempting to send an email through Amazon SES " + "using the AWS SDK for Java...");
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -134,10 +129,6 @@ public class SendMessage {
 
             client.sendRawEmail(rawEmailRequest);
 
-        } catch (SesException e) {
-            System.err.println(e.awsErrorDetails().errorMessage());
-            System.exit(1);
-        }
 
 
     }
